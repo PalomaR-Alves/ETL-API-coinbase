@@ -1,2 +1,5 @@
 tinydb
 requests
+sqlachemy
+psycopg2-binary
+dotenv
