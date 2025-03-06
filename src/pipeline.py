@@ -1,11 +1,23 @@
 import os
 import time
 import requests
+import logfire
+import logging
 from dotenv import load_dotenv
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database import Base, BitcoinPreco
+from logging import basicConfig, getLogger
+
+# configuração do logfire
+logfire.configure() # config padrão do logfire
+basicConfig(handlers=[logfire.LogfireLoggingHandler()]) # define como handler o do logfire
+logger = getLogger(__name__) # cria um obj Logger associado ao nome do modulo atual (pipeline)
+logger.setLevel(logging.INFO) # define o nível do log pra INFO, mas ele tbm pode gerar msgs mais críticas
+logfire.instrument_requests() # integra o logfire com a lib requests, assim as requests vão ser monitoradas
+logfire.instrument_sqlalchemy() # integra também com a sqlalchemy, assim as operações de banco tbm são monitoradas
+
 
 # carregar variáveis de ambiente do .env
 load_dotenv()
@@ -36,7 +48,7 @@ Session = sessionmaker(bind=engine)
 def criar_tabela():
     # para criar as tabelas no banco
     Base.metadata.create_all(engine)
-    print('Tabela(s) criada(s) com sucesso!')
+    logger.info('Tabela(s) criada(s) com sucesso!')
 
 def extract_bitcoin_data():
     # endpoint
@@ -67,7 +79,7 @@ def salvar_dados_postgres(dados):
     session.add(novo_registro)
     session.commit()
     session.close()
-    print(f"{dados['timestamp']} Dados salvos no banco!")
+    logger.info(f"{dados['timestamp']} Dados salvos no banco!")
 
 
 
@@ -77,7 +89,7 @@ if __name__ == "__main__":
         data_json = extract_bitcoin_data()
         if data_json:
             data_treated = transform_bitcoin_data(data_json)
-            print(data_treated)
+            logger.info(data_treated)
             salvar_dados_postgres(data_treated)
 
         time.sleep(15) # roda a cada 15 segundos

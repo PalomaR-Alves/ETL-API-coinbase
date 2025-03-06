@@ -3,3 +3,6 @@ requests
 sqlachemy
 psycopg2-binary
 dotenv
+logfire
+logfire[requests]
+logfire[sqlalchemy]
