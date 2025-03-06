@@ -1,6 +1,5 @@
-tinydb
-requests
 sqlachemy
+requests
 psycopg2-binary
 dotenv
 logfire
