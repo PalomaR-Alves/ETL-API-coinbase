@@ -2,6 +2,7 @@ sqlalchemy
 requests
 psycopg2-binary
 dotenv
+streamlit
 logfire
 logfire[requests]
 logfire[sqlalchemy]

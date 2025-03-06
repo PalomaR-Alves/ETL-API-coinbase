@@ -1,8 +1,6 @@
 # ETL-API-coinbase
-Este é um projeto para treinar ETL básico usando dados de criptomoeda (bitcoin).
-A API da coinbase é usada para obter dados da cotação do bitcoin periodicamente junto
-com python. Um banco postgresql hospedado no Render é usado, e para dashboard (visualização de dados) também foi usado
-Render (https://dashboard.render.com).
+Este é um projeto feito em Python para treinar ETL básico usando dados de criptomoeda (bitcoin).
+A API da coinbase é usada para obter dados da cotação do bitcoin a cada 15 segundos. Um banco PostgreSQL foi hospedado no Render e o próprio código foi deployado lá também, já o dashboard (visualização de dados) foi feito usando a lib StreamLit.
 Também foi usada a lib Logfire para observabilidade simples das requisições e operações no banco postgre (das libs requests e SQLAlchemy respectivamente). Logs disponíveis em: https://logfire.pydantic.dev/palomiaw/etl-api-coinbase
 
 Resultado dos dados no banco PostgreSQL no client local PgAdmin:
